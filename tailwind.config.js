@@ -12,6 +12,10 @@ export default {
       colors: {
         orange: '#F89509',
       },
+     
+        fontFamily: {
+          ekushey: ['SolaimanLipi', 'Arial', 'sans-serif'],
+        },
     },
   },
   daisyui: {

@@ -4,7 +4,7 @@ import { ClipboardListIcon, HomeIcon, UserIcon, UsersIcon } from "lucide-react";
 const Footer = () => {
   return (
     <div className="fixed bottom-0 left-0 w-full bg-white shadow-lg">
-    <div className="flex justify-around py-2 bg-black">
+    <div className="flex justify-around py-2  ">
       <div className="flex flex-col items-center">
         <HomeIcon className="h-6 w-6 text-blue-600" />
         <span className="text-xs mt-1">হোম পেজ</span>
