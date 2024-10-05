@@ -16,7 +16,7 @@ const Card = ({data}:{data:EarningsData[]}) => {
   return (
     <div className=" mb-10">
       {data.map((item, index) => (
-        <div key={index} className="card bg-base-100 shadow-xl w-full">
+        <div key={index} className="card bg-base-100 shadow-xl w-full my-4">
           <figure>
             <img src={item.img} alt={`Image of ${item.dailyPercentage}% daily`} className='w-full rounded-md' />
           </figure>
