@@ -12,6 +12,7 @@ import AddBank from '@/pages/Withdraw/AddBank';
 import BalanceRecord from '@/pages/Orders/BalanceRecord';
 import PaymentRecords from '@/pages/Orders/PaymentRecords';
 import About from '@/pages/Home/About';
+import Faq from '@/pages/Home/Faq';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       , {
         path: '/about-us',
         element: <About />,
+      }
+      , {
+        path: '/faq',
+        element: <Faq />,
       }
     ],
   },
