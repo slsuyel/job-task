@@ -15,6 +15,7 @@ const Login = () => {
     const loginData = { phone: phoneNumber, password };
     try {
       const response = await callApi("POST", "/login", loginData); 
+      console.log(response);
       if (response.token) {
         localStorage.setItem("token", response.token); 
         navigate("/home");
