@@ -56,7 +56,7 @@ const Home = () => {
     {
       dailyPercentage: 36,
       totalPercentage: 1800,
-      dailyIncome: 1700,
+      dailyIncome: 1800,
       totalEarnings: 108000,
       days: 60,
       price: 5000,
