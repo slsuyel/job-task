@@ -61,7 +61,7 @@ const Faq: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-gray-50 to-blue-50 text-gray-800 p-6">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
+      <div className=" mx-auto bg-white rounded-lg shadow-md p-6">
         <header className="mb-8 text-center">
           <h1 className="text-3xl font-bold mb-4 text-gray-900">সচরাচর জিজ্ঞাস্য (FAQ)</h1>
           <p className="text-lg text-gray-600">আপনার প্রশ্নের উত্তর খুঁজুন।</p>
@@ -73,7 +73,7 @@ const Faq: React.FC = () => {
               onClick={() => toggleAccordion(index)}
               className="flex justify-between items-center w-full py-4 text-left focus:outline-none hover:bg-gray-200 transition duration-200"
             >
-              <h2 className="text-xl font-semibold text-gray-800">{item.question}</h2>
+              <h2 className="text-xl font-semibold text-gray-800 px-2">{item.question}</h2>
               <span className="text-lg text-gray-600">{openIndex === index ? '-' : '+'}</span>
             </button>
             {openIndex === index && (
