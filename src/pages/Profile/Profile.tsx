@@ -1,3 +1,5 @@
+import { callApi } from "@/utils/functions";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Profile = () => {
@@ -10,6 +12,36 @@ const navigate = useNavigate()
   const teamBenefits = 0;
   const dailyEarnings = 0;
   const referralLink = "https://example.com/referral-link";
+
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const data = await callApi('GET', '/profile'); 
+        if (data) {
+          setUser(data.user);
+        } else {
+          throw new Error('No data received');
+        }
+      } catch (err) {
+       console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+
+
+console.log(user);
 
   const handleLogout = () => {
     localStorage.removeItem('token')
@@ -107,6 +139,11 @@ const navigate = useNavigate()
           <button onClick={()=>handleLogout()} className=" my-2 w-full py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300">
             লগ আউট করুন
           </button>
+
+
+          <br />
+          <br />
+          <br />
         </div>
       </div>
     </div>

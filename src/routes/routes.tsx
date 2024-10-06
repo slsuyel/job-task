@@ -15,6 +15,7 @@ import PaymentRecords from '@/pages/Orders/PaymentRecords';
 import About from '@/pages/Home/About';
 import Faq from '@/pages/Home/Faq';
 import PrivateRoute from './PrivateRoute';
+import SingleProduct from '@/pages/Orders/SingleProduct';
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
           {
             path: '/orders',
             element: <Orders />,
+          },
+          {
+            path: '/product/:id',
+            element: <SingleProduct />,
           },
           {
             path: '/withdraw',
