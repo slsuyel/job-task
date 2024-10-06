@@ -18,7 +18,7 @@ const Card = ({ data, images }: { data: EarningsData[], images: { src: string, a
         <div key={index} className="card bg-base-100 shadow-xl w-full my-4">
           <figure>
             {/* Use the corresponding image based on the index */}
-            <img src={images[index]?.src} alt={images[index]?.alt || `Image of ${item.dailyPercentage}% daily`} className='w-full rounded-md' />
+            <img src={images[index]?.src} alt={images[index]?.alt || `Image of ${item.dailyPercentage}% daily`} className='w-full  rounded-md shadow-lg object-cover transition-transform transform hover:scale-105' />
           </figure>
           <div className="card-body w-full">
             <h2 className="card-title flex justify-between">
