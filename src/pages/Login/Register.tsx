@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
 
-const Login = () => {
+const Register = () => {
+  const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
+    console.log("Name:", name);
     console.log("Phone Number:", phoneNumber);
     console.log("Password:", password);
   };
@@ -14,8 +16,23 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-full ">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
         <form onSubmit={handleSubmit}>
+          {/* Name Input */}
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Name
+            </label>
+            <input
+              type="text"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+
           {/* Phone Number Input */}
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -46,20 +63,20 @@ const Login = () => {
             />
           </div>
 
-          {/* Login Button */}
+          {/* Register Button */}
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
+            className="w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300"
           >
-            Login
+            Register
           </button>
         </form>
 
-        {/* Don't have an account? Register link */}
+        {/* Already have an account */}
         <p className="mt-4 text-center text-gray-600">
-          Don't have an account?{" "}
-          <Link to="/register" className="text-blue-500 hover:underline">
-            Register
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-500 hover:underline">
+            Login
           </Link>
         </p>
       </div>
@@ -67,4 +84,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
