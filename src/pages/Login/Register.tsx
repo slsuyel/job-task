@@ -5,18 +5,56 @@ const Register = () => {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    console.log("Name:", name);
-    console.log("Phone Number:", phoneNumber);
-    console.log("Password:", password);
+
+    const user = {
+      name,
+      phone: phoneNumber,
+      password,
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSuccess("User registered successfully!");
+        setError("");
+        console.log("Registration Success:", data);
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || "Something went wrong!");
+        setSuccess("");
+        console.error("Registration Error:", errorData);
+      }
+    } catch (error) {
+      setError("Failed to connect to the server.");
+      setSuccess("");
+      console.error("Error:", error);
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-full ">
+      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
+
+        {/* Show success message */}
+        {success && <p className="text-green-500 text-center">{success}</p>}
+
+        {/* Show error message */}
+        {error && <p className="text-red-500 text-center">{error}</p>}
+
         <form onSubmit={handleSubmit}>
           {/* Name Input */}
           <div className="mb-4">
@@ -39,7 +77,7 @@ const Register = () => {
               Phone Number
             </label>
             <input
-              type="text"
+              type="number"
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your phone number"
               value={phoneNumber}

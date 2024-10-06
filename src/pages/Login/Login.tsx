@@ -1,20 +1,56 @@
 import { useState } from "react";
-import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
+import { Link, useNavigate } from 'react-router-dom'; // React Router for navigation
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate(); 
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    console.log("Phone Number:", phoneNumber);
-    console.log("Password:", password);
+
+    const user = {
+      phone: phoneNumber,
+      password,
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setError(""); 
+        console.log("Login Success:", data);
+
+        localStorage.setItem('token', data.token);
+        navigate("/profile");
+
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || "Invalid phone number or password.");
+        console.error("Login Error:", errorData);
+      }
+    } catch (error) {
+      setError("Failed to connect to the server.");
+      console.error("Error:", error);
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-full ">
+      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
+
+        {/* Show error message */}
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+
         <form onSubmit={handleSubmit}>
           {/* Phone Number Input */}
           <div className="mb-4">
@@ -22,7 +58,7 @@ const Login = () => {
               Phone Number
             </label>
             <input
-              type="text"
+              type="number"
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your phone number"
               value={phoneNumber}
