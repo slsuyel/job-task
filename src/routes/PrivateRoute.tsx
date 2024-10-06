@@ -3,7 +3,7 @@ import { callApi } from "@/utils/functions";
 import { ReactNode, useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router";
 
-const PrivateRoute = ({ children }:{children:ReactNode}) => {
+const PrivateRoute = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [isValidToken, setIsValidToken] = useState(false);
   const location = useLocation();
@@ -11,44 +11,41 @@ const PrivateRoute = ({ children }:{children:ReactNode}) => {
   useEffect(() => {
     const checkToken = async () => {
       const token = localStorage.getItem("token");
-
       if (token) {
         try {
           const response = await callApi("GET", "/verify-token", null, {
             Authorization: `Bearer ${token}`,
           });
 
-            console.log(response);
-            
+          // If the token is valid, set the state accordingly
           if (response && response.status === 200) {
-            // Token is valid
             setIsValidToken(true);
           } else {
-            // Token is invalid or expired
             setIsValidToken(false);
           }
         } catch (error) {
           console.error("Token validation error:", error);
           setIsValidToken(false);
-        } finally {
-          setLoading(false);
         }
       } else {
-        setLoading(false);
+        setIsValidToken(false); // Token not found, set to false
       }
+      setLoading(false); // Set loading to false after the check is done
     };
 
     checkToken();
-  }, []);
+  }, [location]); // Dependency on location to check on route change
 
   if (loading) {
     return <Loader />;
   }
 
+  // If token is valid, render the children
   if (isValidToken) {
-    return children; // Token is valid, allow access
+    return children;
   }
 
+  // If not valid, redirect to login
   return <Navigate to="/login" state={{ from: location }} replace />;
 };
 
