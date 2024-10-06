@@ -1,5 +1,4 @@
 import { Outlet } from 'react-router-dom';
-import Footer from '../global/Footer';
 
 import { GoToTop } from 'go-to-top-react';
 import ScrollToTop from '../global/ScrollToTop';
@@ -10,7 +9,7 @@ const MainLayout = () => {
       <div className="max-w-md mx-auto ">
         
           <Outlet />
-        <Footer />
+    
         <GoToTop />
       </div>
     </ScrollToTop>

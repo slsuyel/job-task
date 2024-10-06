@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { callApi } from "@/utils/functions";
 import { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom'; // React Router for navigation
+import { Link, useNavigate } from 'react-router-dom'; 
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -7,39 +9,21 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate(); 
 
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-
-    const user = {
-      phone: phoneNumber,
-      password,
-    };
-
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); 
+    setError(""); 
+    const loginData = { phone: phoneNumber, password };
     try {
-      const response = await fetch('http://localhost:3000/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setError(""); 
-        console.log("Login Success:", data);
-
-        localStorage.setItem('token', data.token);
-        navigate("/profile");
-
+      const response = await callApi("POST", "/login", loginData); 
+      if (response.token) {
+        localStorage.setItem("token", response.token); 
+        navigate("/home");
       } else {
-        const errorData = await response.json();
-        setError(errorData.message || "Invalid phone number or password.");
-        console.error("Login Error:", errorData);
+        setError(response.message || "Login failed. Please check your credentials.");
       }
-    } catch (error) {
-      setError("Failed to connect to the server.");
-      console.error("Error:", error);
+    } catch (error: any) {
+      console.log(error);
+      setError("An error occurred during login. Please try again.");
     }
   };
 

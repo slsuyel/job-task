@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../components/layouts/MainLayout';
+import PrivateLayout from '../components/layouts/PrivateLayout';
 import Errorpage from '@/components/global/Errorpage';
 import Login from '@/pages/Login/Login';
 import Home from '@/pages/Home/Home';
@@ -13,6 +14,8 @@ import BalanceRecord from '@/pages/Orders/BalanceRecord';
 import PaymentRecords from '@/pages/Orders/PaymentRecords';
 import About from '@/pages/Home/About';
 import Faq from '@/pages/Home/Faq';
+import PrivateRoute from './PrivateRoute';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -21,7 +24,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Home />,
+        element: <Login />,
       },
       {
         path: '/login',
@@ -30,44 +33,54 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <Register />,
-      }
-      ,
-      {
-        path: '/profile',
-        element: <Profile />,
       },
+
+
       {
-        path: '/orders',
-        element: <Orders />,
-      }
-      , {
-        path: '/withdraw',
-        element: <Withdraw />,
-      }
-      , {
-        path: '/team',
-        element: <Team />,
-      }
-      , {
-        path: '/add-card',
-        element: <AddBank />,
-      }
-      , {
-        path: '/balance-record',
-        element: <BalanceRecord />,
-      }
-      , {
-        path: '/payment-record',
-        element: <PaymentRecords />,
-      }
-      , {
-        path: '/about-us',
-        element: <About />,
-      }
-      , {
-        path: '/faq',
-        element: <Faq />,
-      }
+        element: <PrivateRoute><PrivateLayout /></PrivateRoute>, 
+        children: [
+          {
+            path: '/home',
+            element: <Home />,
+          },
+          {
+            path: '/profile',
+            element: <Profile />,
+          },
+          {
+            path: '/orders',
+            element: <Orders />,
+          },
+          {
+            path: '/withdraw',
+            element: <Withdraw />,
+          },
+          {
+            path: '/team',
+            element: <Team />,
+          },
+          {
+            path: '/add-card',
+            element: <AddBank />,
+          },
+          {
+            path: '/balance-record',
+            element: <BalanceRecord />,
+          },
+          {
+            path: '/payment-record',
+            element: <PaymentRecords />,
+          },
+          {
+            path: '/about-us',
+            element: <About />,
+          },
+          {
+            path: '/faq',
+            element: <Faq />,
+          },
+        ],
+      },
     ],
   },
 ]);
