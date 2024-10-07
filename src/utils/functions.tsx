@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 
-// const baseUrl = 'https://jony-back.vercel.app'; 
-const baseUrl = 'http://localhost:3000'; 
+const baseUrl = 'https://jony-back.vercel.app'; 
+// const baseUrl = 'http://localhost:3000'; 
 
 export const callApi = async (
   method?: string,       
