@@ -1,3 +1,4 @@
+import Loader from "@/components/ui/Loader";
 import { callApi } from "@/utils/functions";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -36,9 +37,8 @@ const navigate = useNavigate()
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader/>
   }
-
 
 
 console.log(user);

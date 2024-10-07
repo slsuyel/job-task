@@ -2,10 +2,12 @@
 import { callApi } from "@/utils/functions";
 import { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom'; 
+import { Eye, EyeOff } from "lucide-react"; // Import Eye and EyeOff icons
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); 
   const [error, setError] = useState("");
   const navigate = useNavigate(); 
 
@@ -43,7 +45,7 @@ const Login = () => {
               Phone Number
             </label>
             <input
-              type="number"
+              type="text"
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your phone number"
               value={phoneNumber}
@@ -52,19 +54,26 @@ const Login = () => {
             />
           </div>
 
-          {/* Password Input */}
-          <div className="mb-6">
+          {/* Password Input with Eye Icon */}
+          <div className="mb-6 relative">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"} // Toggle input type based on showPassword state
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <button
+              type="button"
+              className="absolute inset-y-0 right-0 flex items-center px-3 focus:outline-none"
+              onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+            >
+              {showPassword ? <EyeOff className=" mt-6"  size={20} /> : <Eye className=" mt-6"  size={20} />}
+            </button>
           </div>
 
           {/* Login Button */}

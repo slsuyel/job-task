@@ -1,26 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 
-const baseUrl = 'https://jony-back.vercel.app'; 
-// const baseUrl = 'http://localhost:3000'; 
+// const baseUrl = 'https://jony-back.vercel.app'; 
+const baseUrl = 'http://localhost:3000'; 
 
 export const callApi = async (
-    method?: string,       
-    url?: string,          
-    data: any = null,      
-    headers: any = {}      // Add headers as a new parameter
+  method?: string,       
+  url?: string,          
+  data: any = null,      
+    headers: any = {}     
   ) => {
     const apiUrl = `${baseUrl}${url}`;   
+    const token = localStorage.getItem('token');  
   
     try {
-      const token = localStorage.getItem('token');  
       const response = await axios({
         method,
         url: apiUrl,
         data,
         headers: {
           'Content-Type': 'application/json',
-          ...headers,  // Spread the incoming headers
+          ...headers, 
           Authorization: token ? `Bearer ${token}` : '',  
         },
       });
