@@ -1,9 +1,33 @@
+import Loader from "@/components/ui/Loader";
+import { callApi } from "@/utils/functions";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Orders = () => {
-  const earnings = 0;
-  const dailyIncome = 0;
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const data = await callApi('GET', '/my-orders');
+        setOrders(data.orders || [])
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      } finally {
+        setLoading(false); 
+      }
+    };
+
+    fetchOrders();
+  }, []); 
+
+  if (loading) {
+    return <Loader/>
+  }
+
+  console.log(orders);
+  
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <div className="bg-white rounded-lg shadow-md p-6 max-w-lg mx-auto">
@@ -13,11 +37,11 @@ const Orders = () => {
         <div className="border-b pb-4 mb-4">
           <div className="flex justify-between">
             <span className="text-gray-600">ইতিমধ্যেই উপার্জন হয়েছে:</span>
-            <span className="text-gray-800 font-bold">৳{earnings}</span>
+            <span className="text-gray-800 font-bold">৳{0}</span>
           </div>
           <div className="flex justify-between mt-2">
             <span className="text-gray-600">দৈনিক আয়:</span>
-            <span className="text-gray-800 font-bold">৳{dailyIncome}</span>
+            <span className="text-gray-800 font-bold">৳{0}</span>
           </div>
         </div>
 
