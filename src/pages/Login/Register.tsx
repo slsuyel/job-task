@@ -16,7 +16,6 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Validate the phone number format
     if (!phoneNumber || !isValidPhoneNumber(phoneNumber)) {
       Swal.fire({
         icon: 'error',
@@ -43,7 +42,7 @@ const Register = () => {
           title: 'Registration Successful!',
           text: 'You have registered successfully.',
         });
-        navigate('/profile');
+        navigate('/home');
       } else {
         Swal.fire({
           icon: 'error',
