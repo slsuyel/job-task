@@ -1,69 +1,70 @@
 import { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom'; 
-import { Eye, EyeOff } from "lucide-react"; 
+import { Link, useNavigate } from 'react-router-dom';
+import { Eye, EyeOff } from "lucide-react";
+import { callApi } from "@/utils/functions";
+import Swal from "sweetalert2";
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'; 
+import 'react-phone-number-input/style.css'; 
 
 const Register = () => {
-  const [showPassword, setShowPassword] = useState(false); 
+  const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState<string | undefined>("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-const navigate = useNavigate()
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
+    // Validate the phone number format
+    if (!phoneNumber || !isValidPhoneNumber(phoneNumber)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Phone Number',
+        text: 'Please enter a valid phone number.',
+      });
+      return;
+    }
+
     const user = {
       name,
       phone: phoneNumber,
       password,
     };
-  
-    try {
-      const response = await fetch('http://localhost:3000/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      });
-  
-      if (response.ok) {
-        const data = await response.json();
-        setSuccess("User registered successfully!");
-        setError("");
-  
-        // Store the token in localStorage
-        if (data.token) {
-          localStorage.setItem('token', data.token);
-        }
-        navigate('/profile');
 
-        console.log("Registration Success:", data);
+    try {
+      const response = await callApi('Post', '/register', user);
+      console.log(response);
+      
+      if (response.token) {
+        localStorage.setItem('token', response.token);
+        Swal.fire({
+          icon: 'success',
+          title: 'Registration Successful!',
+          text: 'You have registered successfully.',
+        });
+        navigate('/profile');
       } else {
-        const errorData = await response.json();
-        setError(errorData.message || "Something went wrong!");
-        setSuccess("");
-        console.error("Registration Error:", errorData);
+        Swal.fire({
+          icon: 'error',
+          title: 'Registration Failed',
+          text: 'Something went wrong!',
+        });
+        console.error("Registration Error");
       }
     } catch (error) {
-      setError("Failed to connect to the server.");
-      setSuccess("");
+      Swal.fire({
+        icon: 'error',
+        title: 'Server Error',
+        text: 'Failed to connect to the server.',
+      });
       console.error("Error:", error);
     }
   };
-  
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
-
-        {/* Show success message */}
-        {success && <p className="text-green-500 text-center">{success}</p>}
-
-        {/* Show error message */}
-        {error && <p className="text-red-500 text-center">{error}</p>}
 
         <form onSubmit={handleSubmit}>
           {/* Name Input */}
@@ -81,17 +82,19 @@ const navigate = useNavigate()
             />
           </div>
 
-          {/* Phone Number Input */}
+          {/* Phone Number Input using react-phone-number-input */}
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Phone Number
             </label>
-            <input
-              type="number"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your phone number"
+            <PhoneInput
+              international
+              defaultCountry="BD"
+              countryCallingCodeEditable={false}
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={setPhoneNumber}
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter phone number"
               required
             />
           </div>
@@ -102,7 +105,7 @@ const navigate = useNavigate()
               Password
             </label>
             <input
-              type={showPassword ? "text" : "password"} // Toggle input type based on showPassword state
+              type={showPassword ? "text" : "password"}
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your password"
               value={password}
@@ -112,9 +115,9 @@ const navigate = useNavigate()
             <button
               type="button"
               className="absolute inset-y-0 right-0 flex items-center px-3 focus:outline-none"
-              onClick={() => setShowPassword(!showPassword)} 
+              onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? <EyeOff className=" mt-6"  size={20} /> : <Eye className=" mt-6"  size={20} />}
+              {showPassword ? <EyeOff className=" mt-6" size={20} /> : <Eye className=" mt-6" size={20} />}
             </button>
           </div>
 
