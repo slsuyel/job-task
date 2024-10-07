@@ -7,7 +7,7 @@ const BuyPage: React.FC = () => {
   const { id } = useParams();
   const location = useLocation();
   const price = location.state?.price;
-  const navigate = useNavigate(); // Use useNavigate for navigation
+  const navigate = useNavigate(); 
 
   const [paymentChannel, setPaymentChannel] = useState<string>("");
   const [senderAccount, setSenderAccount] = useState<string>("");
