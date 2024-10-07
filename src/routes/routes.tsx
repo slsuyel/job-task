@@ -16,6 +16,7 @@ import About from '@/pages/Home/About';
 import Faq from '@/pages/Home/Faq';
 import PrivateRoute from './PrivateRoute';
 import SingleProduct from '@/pages/Orders/SingleProduct';
+import BuyPage from '@/pages/Orders/BuyPage';
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
           {
             path: '/orders',
             element: <Orders />,
+          },
+          {
+            path: '/buy-product/:id',
+            element: <BuyPage />,
           },
           {
             path: '/product/:id',

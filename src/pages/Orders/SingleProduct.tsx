@@ -1,7 +1,7 @@
 import Loader from "@/components/ui/Loader";
 import { callApi } from "@/utils/functions";
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface Product {
   _id: string;
@@ -11,15 +11,15 @@ interface Product {
   totalEarnings: number;
   days: number;
   price: number;
-  imageUrl?: string; // optional property
-  name?: string;     // optional property
+  imageUrl?: string; 
+  name?: string; 
 }
 
 const SingleProduct: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-
   const [data, setData] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+const navigate = useNavigate()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +43,13 @@ const SingleProduct: React.FC = () => {
   if (loading) {
     return <Loader />;
   }
+
+
+  const handleBuy = () => {
+    navigate(`/buy-product/${id}`, { state: { price: data?.price } });
+  }
+  
+
 
   return (
     <div className="max-w-2xl mx-auto p-5">
@@ -70,7 +77,10 @@ const SingleProduct: React.FC = () => {
               <p>দাম: ৳{data.price}</p>
               <p className='text-end'>দিন: {data.days}</p>
             </div>
-            <Link className='btn btn-primary' to={`/product/${data._id}`}>কিনুন</Link>
+
+    <button onClick={()=>handleBuy()} className="btn btn-primary">কিনুন</button>
+
+          
           </div>
         </div>
           )}
