@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff } from "lucide-react";
-import { callApi } from "@/utils/functions";
-import Swal from "sweetalert2";
-import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'; 
-import 'react-phone-number-input/style.css'; 
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Eye, EyeOff } from 'lucide-react';
+// import { callApi } from '@/utils/functions';
+import Swal from 'sweetalert2';
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState<string | undefined>("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState<string | undefined>('');
+  const [password, setPassword] = useState('');
+  // const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,34 +31,35 @@ const Register = () => {
       password,
     };
 
-    try {
-      const response = await callApi('Post', '/register', user);
-      console.log(response);
-      
-      if (response.token) {
-        localStorage.setItem('token', response.token);
-        Swal.fire({
-          icon: 'success',
-          title: 'Registration Successful!',
-          text: 'You have registered successfully.',
-        });
-        navigate('/home');
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Registration Failed',
-          text: 'Something went wrong!',
-        });
-        console.error("Registration Error");
-      }
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Server Error',
-        text: 'Failed to connect to the server.',
-      });
-      console.error("Error:", error);
-    }
+    // try {
+    //   const response = await callApi('Post', '/register', user);
+    //   console.log(response);
+
+    //   if (response.token) {
+    //     localStorage.setItem('token', response.token);
+    //     Swal.fire({
+    //       icon: 'success',
+    //       title: 'Registration Successful!',
+    //       text: 'You have registered successfully.',
+    //     });
+    //     navigate('/home');
+    //   } else {
+    //     Swal.fire({
+    //       icon: 'error',
+    //       title: 'Registration Failed',
+    //       text: 'Something went wrong!',
+    //     });
+    //     console.error("Registration Error");
+    //   }
+    // } catch (error) {
+    //   Swal.fire({
+    //     icon: 'error',
+    //     title: 'Server Error',
+    //     text: 'Failed to connect to the server.',
+    //   });
+    //   console.error("Error:", error);
+    // }
+    console.log(user);
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -76,7 +77,7 @@ const Register = () => {
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={e => setName(e.target.value)}
               required
             />
           </div>
@@ -104,11 +105,11 @@ const Register = () => {
               Password
             </label>
             <input
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
               required
             />
             <button
@@ -116,7 +117,11 @@ const Register = () => {
               className="absolute inset-y-0 right-0 flex items-center px-3 focus:outline-none"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? <EyeOff className=" mt-6" size={20} /> : <Eye className=" mt-6" size={20} />}
+              {showPassword ? (
+                <EyeOff className=" mt-6" size={20} />
+              ) : (
+                <Eye className=" mt-6" size={20} />
+              )}
             </button>
           </div>
 
@@ -131,7 +136,7 @@ const Register = () => {
 
         {/* Already have an account */}
         <p className="mt-4 text-center text-gray-600">
-          Already have an account?{" "}
+          Already have an account?{' '}
           <Link to="/login" className="text-blue-500 hover:underline">
             Login
           </Link>

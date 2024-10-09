@@ -14,7 +14,7 @@ import BalanceRecord from '@/pages/Orders/BalanceRecord';
 import PaymentRecords from '@/pages/Orders/PaymentRecords';
 import About from '@/pages/Home/About';
 import Faq from '@/pages/Home/Faq';
-import PrivateRoute from './PrivateRoute';
+
 import SingleProduct from '@/pages/Orders/SingleProduct';
 import BuyPage from '@/pages/Orders/BuyPage';
 
@@ -37,9 +37,12 @@ const router = createBrowserRouter([
         element: <Register />,
       },
 
-
       {
-        element: <PrivateRoute><PrivateLayout /></PrivateRoute>, 
+        element: (
+          <>
+            <PrivateLayout />
+          </>
+        ),
         children: [
           {
             path: '/home',
