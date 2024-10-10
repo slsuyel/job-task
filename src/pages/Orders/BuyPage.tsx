@@ -1,13 +1,13 @@
-// import { callApi } from '@/utils/functions';
+import { callApi } from '@/utils/functions';
 import { useState, ChangeEvent, FormEvent } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-// import Swal from 'sweetalert2';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const BuyPage: React.FC = () => {
   const { id } = useParams();
   const location = useLocation();
   const price = location.state?.price;
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [paymentChannel, setPaymentChannel] = useState<string>('');
   const [senderAccount, setSenderAccount] = useState<string>('');
@@ -31,36 +31,36 @@ const BuyPage: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // try {
-    //   const res = await callApi("POST", "/submit-payment", data);
-    //   // If the response is successful
-    //   if (res.message === "Payment submitted successfully") {
-    //     // Show success alert
-    //     Swal.fire({
-    //       title: "Success!",
-    //       text: "Payment submitted successfully!",
-    //       icon: "success",
-    //       confirmButtonText: "OK",
-    //     }).then(() => {
-    //       navigate("/profile");
-    //     });
-    //   } else {
-    //     Swal.fire({
-    //       title: "Error!",
-    //       text: res.message || "Failed to submit payment.",
-    //       icon: "error",
-    //       confirmButtonText: "OK",
-    //     });
-    //   }
-    // } catch (error) {
-    //   console.error("Error submitting payment:", error);
-    //   Swal.fire({
-    //     title: "Error!",
-    //     text: "An unexpected error occurred.",
-    //     icon: "error",
-    //     confirmButtonText: "OK",
-    //   });
-    // }
+    try {
+      const res = await callApi('POST', '/submit-payment', data);
+      // If the response is successful
+      if (res.message === 'Payment submitted successfully') {
+        // Show success alert
+        Swal.fire({
+          title: 'Success!',
+          text: 'Payment submitted successfully!',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        }).then(() => {
+          navigate('/profile');
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: res.message || 'Failed to submit payment.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
+      }
+    } catch (error) {
+      console.error('Error submitting payment:', error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'An unexpected error occurred.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
+    }
 
     console.log(data);
   };

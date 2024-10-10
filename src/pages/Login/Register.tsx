@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
-// import { callApi } from '@/utils/functions';
+import { callApi } from '@/utils/functions';
 import Swal from 'sweetalert2';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
@@ -11,7 +11,7 @@ const Register = () => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>('');
   const [password, setPassword] = useState('');
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,34 +31,34 @@ const Register = () => {
       password,
     };
 
-    // try {
-    //   const response = await callApi('Post', '/register', user);
-    //   console.log(response);
+    try {
+      const response = await callApi('Post', '/register', user);
+      console.log(response);
 
-    //   if (response.token) {
-    //     localStorage.setItem('token', response.token);
-    //     Swal.fire({
-    //       icon: 'success',
-    //       title: 'Registration Successful!',
-    //       text: 'You have registered successfully.',
-    //     });
-    //     navigate('/home');
-    //   } else {
-    //     Swal.fire({
-    //       icon: 'error',
-    //       title: 'Registration Failed',
-    //       text: 'Something went wrong!',
-    //     });
-    //     console.error("Registration Error");
-    //   }
-    // } catch (error) {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Server Error',
-    //     text: 'Failed to connect to the server.',
-    //   });
-    //   console.error("Error:", error);
-    // }
+      if (response.token) {
+        localStorage.setItem('token', response.token);
+        Swal.fire({
+          icon: 'success',
+          title: 'Registration Successful!',
+          text: 'You have registered successfully.',
+        });
+        navigate('/home');
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Registration Failed',
+          text: 'Something went wrong!',
+        });
+        console.error('Registration Error');
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Server Error',
+        text: 'Failed to connect to the server.',
+      });
+      console.error('Error:', error);
+    }
     console.log(user);
   };
   return (

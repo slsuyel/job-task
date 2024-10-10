@@ -20,7 +20,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await callApi('GET', '/product.json');
+        const data = await callApi('GET', '/api/products');
         if (data) {
           setData(data);
         } else {

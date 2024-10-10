@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react'; // Import Eye and EyeOff icons
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'; // Import PhoneInput and validation
 import 'react-phone-number-input/style.css'; // Import styles for PhoneInput
+import { callApi } from '@/utils/functions';
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>(''); // Set phoneNumber as string or undefined
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,19 +25,21 @@ const Login = () => {
     }
 
     const loginData = { phone: phoneNumber, password };
-    // try {
-    //   const response = await callApi("POST", "/login", loginData);
-    //   console.log(response);
-    //   if (response.token) {
-    //     localStorage.setItem("token", response.token);
-    //     navigate("/home");
-    //   } else {
-    //     setError(response.message || "Login failed. Please check your credentials.");
-    //   }
-    // } catch (error: any) {
-    //   console.log(error);
-    //   setError("An error occurred during login. Please try again.");
-    // }
+    try {
+      const response = await callApi('POST', '/login', loginData);
+      console.log(response);
+      if (response.token) {
+        localStorage.setItem('token', response.token);
+        navigate('/home');
+      } else {
+        setError(
+          response.message || 'Login failed. Please check your credentials.'
+        );
+      }
+    } catch (error: any) {
+      console.log(error);
+      setError('An error occurred during login. Please try again.');
+    }
 
     console.log(loginData);
   };
