@@ -1,42 +1,44 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { callApi } from "@/utils/functions";
-import { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom'; 
-import { Eye, EyeOff } from "lucide-react"; // Import Eye and EyeOff icons
+
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Eye, EyeOff } from 'lucide-react'; // Import Eye and EyeOff icons
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'; // Import PhoneInput and validation
 import 'react-phone-number-input/style.css'; // Import styles for PhoneInput
 
 const Login = () => {
-  const [phoneNumber, setPhoneNumber] = useState<string | undefined>(""); // Set phoneNumber as string or undefined
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); 
-  const [error, setError] = useState("");
-  const navigate = useNavigate(); 
+  const [phoneNumber, setPhoneNumber] = useState<string | undefined>(''); // Set phoneNumber as string or undefined
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  // const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); 
-    setError(""); 
+    e.preventDefault();
+    setError('');
 
     // Validate the phone number format
     if (!phoneNumber || !isValidPhoneNumber(phoneNumber)) {
-      setError("Please enter a valid phone number.");
+      setError('Please enter a valid phone number.');
       return;
     }
 
     const loginData = { phone: phoneNumber, password };
-    try {
-      const response = await callApi("POST", "/login", loginData); 
-      console.log(response);
-      if (response.token) {
-        localStorage.setItem("token", response.token); 
-        navigate("/home");
-      } else {
-        setError(response.message || "Login failed. Please check your credentials.");
-      }
-    } catch (error: any) {
-      console.log(error);
-      setError("An error occurred during login. Please try again.");
-    }
+    // try {
+    //   const response = await callApi("POST", "/login", loginData);
+    //   console.log(response);
+    //   if (response.token) {
+    //     localStorage.setItem("token", response.token);
+    //     navigate("/home");
+    //   } else {
+    //     setError(response.message || "Login failed. Please check your credentials.");
+    //   }
+    // } catch (error: any) {
+    //   console.log(error);
+    //   setError("An error occurred during login. Please try again.");
+    // }
+
+    console.log(loginData);
   };
 
   return (
@@ -71,11 +73,11 @@ const Login = () => {
               Password
             </label>
             <input
-              type={showPassword ? "text" : "password"} // Toggle input type based on showPassword state
+              type={showPassword ? 'text' : 'password'} // Toggle input type based on showPassword state
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
               required
             />
             <button
@@ -83,7 +85,11 @@ const Login = () => {
               className="absolute inset-y-0 right-0 flex items-center px-3 focus:outline-none"
               onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
             >
-              {showPassword ? <EyeOff className="mt-6" size={20} /> : <Eye className="mt-6" size={20} />}
+              {showPassword ? (
+                <EyeOff className="mt-6" size={20} />
+              ) : (
+                <Eye className="mt-6" size={20} />
+              )}
             </button>
           </div>
 
@@ -98,7 +104,7 @@ const Login = () => {
 
         {/* Don't have an account? Register link */}
         <p className="mt-4 text-center text-gray-600">
-          Don't have an account?{" "}
+          Don't have an account?{' '}
           <Link to="/register" className="text-blue-500 hover:underline">
             Register
           </Link>

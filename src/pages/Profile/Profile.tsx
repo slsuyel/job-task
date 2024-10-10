@@ -1,55 +1,52 @@
-import Loader from "@/components/ui/Loader";
-import { callApi } from "@/utils/functions";
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+// import Loader from '@/components/ui/Loader';
+// import { callApi } from '@/utils/functions';
+// import { useEffect, useState } from 'react';
+// import { Link, useNavigate } from 'react-router-dom';
+
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
-const navigate = useNavigate()
+  // const navigate = useNavigate();
 
-
-  const userId = "1722597565";
+  const userId = '01712345678';
   const balance = 10;
   const totalRevenue = 10;
   const teamBenefits = 0;
   const dailyEarnings = 0;
-  const referralLink = "https://example.com/referral-link";
+  const referralLink = 'https://example.com/referral-link';
 
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // const [user, setUser] = useState(null);
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const data = await callApi('GET', '/profile'); 
-        if (data) {
-          setUser(data.user);
-        } else {
-          throw new Error('No data received');
-        }
-      } catch (err) {
-       console.log(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUserProfile = async () => {
+  //     try {
+  //       const data = await callApi('GET', '/profile');
+  //       if (data) {
+  //         setUser(data.user);
+  //       } else {
+  //         throw new Error('No data received');
+  //       }
+  //     } catch (err) {
+  //       console.log(err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchUserProfile();
-  }, []);
+  //   fetchUserProfile();
+  // }, []);
 
-  if (loading) {
-    return <Loader/>
-  }
+  // if (loading) {
+  //   return <Loader />;
+  // }
 
-
-console.log(user);
+  // console.log(user);
 
   const handleLogout = () => {
-    localStorage.removeItem('token')
-    navigate('/')
-}
-
-
-
+    localStorage.removeItem('token');
+    // navigate('/');
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
@@ -136,10 +133,12 @@ console.log(user);
               প্রশ্ন
             </button>
           </Link>
-          <button onClick={()=>handleLogout()} className=" my-2 w-full py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300">
+          <button
+            onClick={() => handleLogout()}
+            className=" my-2 w-full py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300"
+          >
             লগ আউট করুন
           </button>
-
 
           <br />
           <br />

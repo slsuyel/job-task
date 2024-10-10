@@ -1,4 +1,3 @@
-
 import Slider from 'react-slick';
 import img1 from '/byk-1.jpg';
 import img2 from '/byk-2.jpg';
@@ -21,14 +20,14 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await callApi('GET', '/products'); 
+        const data = await callApi('GET', '/product.json');
         if (data) {
           setData(data);
         } else {
           throw new Error('No data received');
         }
       } catch (err) {
-       console.log(err);
+        console.log(err);
       } finally {
         setLoading(false);
       }
@@ -38,20 +37,18 @@ const Home = () => {
   }, []);
 
   if (loading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
-
-
   const images = [
-    { src: img1, alt: "Image 1" },
-    { src: img2, alt: "Image 2" },
-    { src: img3, alt: "Image 3" },
-    { src: img4, alt: "Image 4" },
-    { src: img5, alt: "Image 5" },
-    { src: img6, alt: "Image 6" },
-    { src: img7, alt: "Image 7" },
-    { src: img8, alt: "Image 8" },
+    { src: img1, alt: 'Image 1' },
+    { src: img2, alt: 'Image 2' },
+    { src: img3, alt: 'Image 3' },
+    { src: img4, alt: 'Image 4' },
+    { src: img5, alt: 'Image 5' },
+    { src: img6, alt: 'Image 6' },
+    { src: img7, alt: 'Image 7' },
+    { src: img8, alt: 'Image 8' },
   ];
 
   const settings = {
@@ -65,21 +62,22 @@ const Home = () => {
   };
 
   return (
-    <div className='w-full mx-auto overflow-hidden'>
+    <div className="w-full mx-auto overflow-hidden">
       <Slider {...settings}>
         {images.map((image, index) => (
           <div key={index}>
-            <img src={image.src} className='w-full h-[250px] object-cover'  alt={image.alt} />
+            <img
+              src={image.src}
+              className="w-full h-[250px] object-cover"
+              alt={image.alt}
+            />
           </div>
         ))}
       </Slider>
 
+      <Notice />
 
-<Notice/>
-
-      
-      <Card data={data} images={ images} />
-
+      <Card data={data} images={images} />
     </div>
   );
 };
